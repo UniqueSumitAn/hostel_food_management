@@ -1,16 +1,21 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
-import Product from "./components/Product";
-import Header from "./components/Header";
+
+import { Route, Routes } from "react-router-dom";
+import Login from "../pages/Login";
+import Home from "../pages/Home";
+import Checkout from "../pages/Checkout";
 
 function App() {
   return (
-    <>
-      <Header />
-      <Product />
-    </>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/Home" element={<Home />} />
+      <Route path="Checkout" element={<Checkout />} />
+      <Route />
+      <Route />
+    </Routes>
   );
 }
 
