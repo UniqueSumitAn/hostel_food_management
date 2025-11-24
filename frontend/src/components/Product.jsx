@@ -15,7 +15,7 @@ const Product = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white p-4 w-full h-full">
+    <div className=" p-4 w-full h-full">
       {Products.map((Category, index) => (
         <div key={index} className="flex flex-col mb-6">
           <h2 className="text-xl font-bold mb-2">{Category.category}</h2>
@@ -30,7 +30,7 @@ const Product = () => {
             {Category.products.map((Productdetail, idx) => (
               <div
                 key={idx}
-                className="border p-3 rounded w-40 h-70 flex flex-col items-start shrink-0 relative pb-12"
+                className="bg-white border-gray-600 p-3 rounded w-40 h-70 flex flex-col items-start shrink-0 relative pb-12"
               >
                 <img src="./earth.jpg" />
                 <div className="font-semibold">{Productdetail.name}</div>

@@ -30,6 +30,7 @@ const Bill = () => {
         <h2 className="font-bold text-lg">Grand total</h2>
         <h2 className="ml-auto font-bold text-lg">₹{price + 5}</h2>
       </div>
+     
     </div>
   );
 };
