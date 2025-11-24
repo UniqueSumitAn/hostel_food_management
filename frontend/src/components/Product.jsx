@@ -41,7 +41,7 @@ const Product = () => {
                 <div className="absolute bottom-5 left-3 mt-10">
                   <Quantity
                     onChange={(qty) =>
-                      handleQuantityChange(Productdetail.id, qty)
+                      handleQuantityChange(Productdetail.id, qty,Productdetail.name,Productdetail.price)
                     }
                   />
                 </div>

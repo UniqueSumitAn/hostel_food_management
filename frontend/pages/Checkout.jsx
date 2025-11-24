@@ -10,7 +10,7 @@ const Checkout = () => {
   const { cart } = location.state || {};
   console.log(cart);
   return (
-    <div>
+    <div className=" flex justify-center items-center flex-col w-full h-full bg-[#f5f7fd] gap-5">
       <Cart />
       <Bill />
       You might also like
