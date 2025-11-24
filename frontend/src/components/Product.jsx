@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import Products from "../../public/Dummyproducts";
 import { useState } from "react";
 import Quantity from "../../util/Quantity";
-
+import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../context/Cartcontext";
 const Product = () => {
-  const [cartQuantities, setCartQuantities] = useState({});
-  const [checkout, setcheckout] = useState(false);
-  const handleQuantityChange = (productId, qty) => {
-    setCartQuantities((prev) => ({
-      ...prev,
-      [productId]: qty,
-    }));
-    setcheckout(true);
-  };
+  const {
+    cartQuantities,
+    setCartQuantities,
+    checkout,
+    setcheckout,
+    handleQuantityChange,
+  } = useContext(CartContext);
+  const navigate = useNavigate();
 
   return (
     <div className="bg-white p-4 w-full h-full">
@@ -60,7 +60,10 @@ const Product = () => {
       >
         <button
           className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg"
-          onClick={console.log("button clicked")}
+          onClick={() => {
+            console.log("button clicked");
+            navigate("/Checkout");
+          }}
         >
           Checkout
         </button>
