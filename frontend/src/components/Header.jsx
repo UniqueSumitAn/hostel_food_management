@@ -16,7 +16,7 @@ const SearchInput = () => {
   return (
     <div className="flex items-center w-full gap-5 bg-[#f5f7fd] p-2 ">
       
-      <p className="flex-shrink-0 ">Welcome to Dastur Hostel</p>
+      
 
       
       <div className="flex-1">
