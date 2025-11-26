@@ -3,6 +3,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const connectDB = require("./Config/DB");
+const User = require("./Model/UserModel");
 
 const App = express();
 
