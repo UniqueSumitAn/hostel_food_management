@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const SearchInput = () => {
   const [searchText, setSearchText] = useState("");
-  const placeholders = ["Search biscuits", "Search soap", "Search chips","search chocolate"];
+  const placeholders = ["Search Biscuits", "Search Soap", "Search Chips","Search Chocolate"];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

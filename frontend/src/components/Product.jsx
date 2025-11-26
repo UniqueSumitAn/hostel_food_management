@@ -4,6 +4,7 @@ import { useState } from "react";
 import Quantity from "../../util/Quantity";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/Cartcontext";
+import Hero from "../../util/Hero";
 const Product = () => {
   const {
     cartQuantities,
@@ -15,7 +16,12 @@ const Product = () => {
   const navigate = useNavigate();
 
   return (
-    <div className=" p-4 w-full h-full">
+    <div className=" p-4 w-full h-full ">
+      <div className="w-full h-4/5 mt-5 flex flex-col items-center">
+        <div className="w-4/5">
+          <Hero />
+        </div>
+      </div>
       {Products.map((Category, index) => (
         <div key={index} className="flex flex-col mb-6">
           <h2 className="text-xl font-bold mb-2">{Category.category}</h2>
@@ -41,7 +47,12 @@ const Product = () => {
                 <div className="absolute bottom-5 left-3 mt-10">
                   <Quantity
                     onChange={(qty) =>
-                      handleQuantityChange(Productdetail.id, qty,Productdetail.name,Productdetail.price)
+                      handleQuantityChange(
+                        Productdetail.id,
+                        qty,
+                        Productdetail.name,
+                        Productdetail.price
+                      )
                     }
                   />
                 </div>

@@ -4,7 +4,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const connectDB = require("./Config/DB");
 const User = require("./Model/UserModel");
-
+const userRouter = require("./routes/userRoutes");
+const messageRouter=require("./routes/messageRoutes");
 const App = express();
 
 App.use(express.json());
@@ -33,8 +34,8 @@ App.use(
 
 //Routes
 
-// App.use("/user", userRoutes);
-// App.use("/message", messageRouter);
+App.use("/user", userRouter);
+App.use("/message", messageRouter);
 
 const startServer = async () => {
   try {
