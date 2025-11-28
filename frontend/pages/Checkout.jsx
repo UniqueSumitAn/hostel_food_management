@@ -9,9 +9,28 @@ const VITE_URL = import.meta.env.VITE_BACKEND_URL;
 const Checkout = () => {
   const { cartQuantities } = useContext(CartContext);
   const location = useLocation();
-  const { cart } = location.state || {};
+  const items = Object.entries(cartQuantities).map(([productId, item]) => ({
+    productId: productId,
+    name: item.name,
+    quantity: item.qty,
+    price: item.price,
+  }));
+
+  const total = items.reduce(
+    (sum, item) => sum + item.quantity * item.price,
+    0
+  );
+  
   const placeOrder = async () => {
-    const response = await axios.post(`${VITE_URL}/Orders`, cartQuantities, {
+    const orderData = {
+      orderId: "ORD-2001",
+      customerName: "Sumit Kumar",
+      phone: "8544549282",
+      address: "Bhopal, MP",
+      items: items,
+      total: total,
+    };
+    const response = await axios.post(`${VITE_URL}/message/Orders`, orderData, {
       withCredentials: true,
     });
   };

@@ -12,7 +12,8 @@ function App() {
   return (
     <CartProvider>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/Home" element={<Home />} />
         <Route path="/Checkout" element={<Checkout />} />
       </Routes>
     </CartProvider>

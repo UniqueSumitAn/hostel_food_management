@@ -27,7 +27,7 @@ const SearchInput = () => {
           className="border border-gray-400 p-2 rounded w-full"
         />
       </div>
-      <button className="p-2 rounded-lg bg-green-600 cursor-pointer text-white ">Login</button>
+     
     </div>
   );
 };

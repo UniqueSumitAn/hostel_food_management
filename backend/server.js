@@ -4,8 +4,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const connectDB = require("./Config/DB");
 const User = require("./Model/UserModel");
-const userRouter = require("./routes/userRoutes");
-const messageRouter=require("./routes/messageRoutes");
+const userRouter = require("./cotroller/userRoutes");
+const messageRouter=require("./cotroller/messageRoutes");
 const App = express();
 
 App.use(express.json());
