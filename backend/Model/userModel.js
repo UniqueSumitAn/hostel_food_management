@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    role: { type: String, required: true, default: "user" },
     fullname: { type: String, required: true },
     profilepic: {
       type: String,
@@ -20,6 +21,4 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
-const User = mongoose.model("User", userSchema);
-
-module.exports = User;
+module.exports = mongoose.models.User || mongoose.model("User", userSchema);

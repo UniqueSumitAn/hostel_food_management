@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import Checkout from "../pages/Checkout";
 
 import { CartProvider } from "../context/Cartcontext";
+import Admin from "../pages/Admin";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/Checkout" element={<Checkout />} />
+        <Route path="/adminHome" element={<Admin />} />
       </Routes>
     </CartProvider>
   );

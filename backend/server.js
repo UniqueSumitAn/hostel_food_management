@@ -3,9 +3,10 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const connectDB = require("./Config/DB");
-const User = require("./Model/UserModel");
+
 const userRouter = require("./cotroller/userRoutes");
 const messageRouter=require("./cotroller/messageRoutes");
+const hostelRouter = require("./cotroller/hostelController");
 const App = express();
 
 App.use(express.json());
@@ -36,6 +37,7 @@ App.use(
 
 App.use("/user", userRouter);
 App.use("/message", messageRouter);
+App.use("/hostel",hostelRouter);
 
 const startServer = async () => {
   try {
