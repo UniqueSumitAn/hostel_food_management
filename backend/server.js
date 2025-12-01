@@ -5,7 +5,7 @@ const cors = require("cors");
 const connectDB = require("./Config/DB");
 
 const userRouter = require("./cotroller/userRoutes");
-const messageRouter=require("./cotroller/messageRoutes");
+const messageRouter = require("./cotroller/messageRoutes");
 const hostelRouter = require("./cotroller/hostelController");
 const App = express();
 
@@ -15,7 +15,7 @@ App.set("trust proxy", 1);
 
 const allowedOrigins = [
   "http://localhost:5173",
-  " https://hostelfoodmanagement-one.vercel.app",
+  "https://hostelfoodmanagement-one.vercel.app",
 ];
 App.use(
   cors({
@@ -37,7 +37,7 @@ App.use(
 
 App.use("/user", userRouter);
 App.use("/message", messageRouter);
-App.use("/hostel",hostelRouter);
+App.use("/hostel", hostelRouter);
 
 const startServer = async () => {
   try {

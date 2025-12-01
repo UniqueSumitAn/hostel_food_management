@@ -1,5 +1,6 @@
 const express = require("express");
-const hostelRoute = require("../routes/hostelRoute");
+
+const hostelDetailRoute = require("../routes/hostelRoute");
 const hostelRouter = express.Router();
-hostelRouter.get("/hostelDetails",hostelRoute)
+hostelRouter.get("/fetchHostelDetails",hostelDetailRoute)
 module.exports = hostelRouter;

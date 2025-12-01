@@ -1,18 +1,39 @@
 const express = require("express");
 const User = require("../Model/userModel");
-const bcrypt=require("bcrypt")
+const bcrypt = require("bcrypt");
+const jwtSign = require("../Auth/Auth");
+
 const Login = async (req, res) => {
   const { Email, Password } = req.body;
-  console.log(Email,Password);
+  console.log(Email, Password);
   const isUser = await User.findOne({ email: Email });
   if (isUser) {
     const checkpassword = await bcrypt.compare(Password, isUser.password);
-    if (checkpassword && isUser.role === "user") {
-      //user is normal user
-      return res.json({ success: true, panel: "user" });
-    } else if (checkpassword && isUser.role === "admin") {
-      // user is admin
-      return res.json({ success: true, panel: "admin" });
+
+    if (checkpassword) {
+      if (isUser.role === "user") {
+        const user = await User.findById(isUser._id).select("-password");
+        const token = jwtSign(user._id);
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          path: "/",
+        });
+        //user is normal user
+        return res.json({ success: true, panel: "user", user: user });
+      } else if (isUser.role === "admin") {
+        const user = await User.findById(isUser._id).select("-password");
+        const token = jwtSign(user._id);
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          path: "/",
+        });
+        // user is admin
+        return res.json({ success: true, panel: "admin", user: user });
+      }
     }
   } else {
     return res.json({ success: false, message: "user not authentic" });

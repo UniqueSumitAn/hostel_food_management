@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 const VITE_URL = import.meta.env.VITE_BACKEND_URL;
 const Login = () => {
+  const { User, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [Status, setStatus] = useState("Register");
   const [OtpBox, setOtpBox] = useState(false);
@@ -28,7 +31,7 @@ const Login = () => {
     });
   };
   const HandleLogin = async () => {
-    if (Verified === true|| Status==="Login") {
+    if (Verified === true || Status === "Login") {
       const response = await axios.post(
         `${VITE_URL}/user/${Status}`,
         FormDetails,
@@ -37,9 +40,19 @@ const Login = () => {
         }
       );
       if (response.data.panel === "user") {
-        navigate("/Home");
+        setUser(response.data.user);
+        navigate("/Home", {
+          state: {
+            user: response.data.user,
+          },
+        });
       } else if (response.data.panel === "admin") {
-        navigate("/adminHome");
+        setUser(response.data.user);
+        navigate("/adminHome", {
+          state: {
+            user: response.data.user,
+          },
+        });
       }
     }
   };
@@ -50,16 +63,14 @@ const Login = () => {
     });
     if (response.data.success) {
       setotp(response.data.otp);
-      
     }
-    
   };
   const HandleSubmit = (e) => {
     e.preventDefault();
   };
   const verifyOtp = () => {
     if (otp) {
-      console.log(otp,"::",InputOtp);
+      console.log(otp, "::", InputOtp);
       if (otp == InputOtp) {
         setVerified(true);
       } else {
@@ -186,7 +197,7 @@ const Login = () => {
                 onChange={(e) => {
                   setInputOtp(e.target.value);
                 }}
-                className="w-20 h-full p-2 outline-none"
+                className="w-30 h-full p-2 outline-none"
               />
               <button className="cursor-pointer" onClick={verifyOtp}>
                 {Verified === false ? "Verify" : "✔ Verified"}

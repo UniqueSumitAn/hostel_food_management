@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const hostelSchema = new mongoose.Schema(
   {
+    Admin: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    ],
     hostelname: { type: String, required: true },
     products: { type: Array },
     logo: { type: String },
