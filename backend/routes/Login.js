@@ -42,18 +42,21 @@ const Login = async (req, res) => {
 
 const Register = async (req, res) => {
   const { Name, Email, Phone, Password, Hostel } = req.body;
-  const isUser = await User.findOne({ Email });
-  if (!isUser) {
-    const newUser = new User({
-      email: Email,
-      password: Password,
-      Phone: Phone,
-      fullname: Name,
-      hostel: Hostel,
-    });
+  console.log(req.body)
+  if (Hostel != "+ Add New") {
+    const isUser = await User.findOne({ Email });
+    if (!isUser) {
+      const newUser = new User({
+        email: Email,
+        password: Password,
+        Phone: Phone,
+        fullname: Name,
+        hostel: Hostel,
+      });
 
-    await newUser.save();
+      await newUser.save();
+      return res.json({ success: true, panel: "user" });
+    }
   }
-  return res.json({ success: true, panel: "user" });
 };
 module.exports = { Login, Register };

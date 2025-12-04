@@ -13,9 +13,10 @@ const Login = () => {
   const [InputOtp, setInputOtp] = useState();
   const [otp, setotp] = useState();
   const [Verified, setVerified] = useState(false);
-  const hostels = ["Hostel A", "Hostel B", "Hostel C", "Hostel D"];
+  const hostels = ["Hostel A", "Hostel B", "Hostel C", "Hostel D", "+ Add New"];
   const [HostelSearch, setHostelSearch] = useState("");
   const [ShowHostelDropdown, setShowHostelDropdown] = useState(false);
+  const [AddingNewHostel, setAddingNewHostel] = useState(false);
 
   const [FormDetails, setFormDetails] = useState({
     Name: "",
@@ -119,7 +120,7 @@ const Login = () => {
             <input
               type="text"
               placeholder="Search Hostel"
-              value={HostelSearch || FormDetails.Hostel}
+              value={FormDetails.Hostel || HostelSearch}
               onFocus={() => setShowHostelDropdown(true)}
               onChange={(e) => {
                 setHostelSearch(e.target.value);
@@ -128,8 +129,9 @@ const Login = () => {
               className="w-full h-10 p-2 outline-none rounded"
             />
 
-            {ShowHostelDropdown && (
+            {ShowHostelDropdown && !AddingNewHostel && (
               <div className="absolute top-12 left-0 w-full max-h-40 bg-white shadow-lg rounded overflow-y-auto z-10">
+                {/* Existing hostels */}
                 {hostels
                   .filter((h) =>
                     h.toLowerCase().includes(HostelSearch.toLowerCase())
@@ -138,9 +140,13 @@ const Login = () => {
                     <div
                       key={index}
                       onClick={() => {
-                        setFormDetails({ ...FormDetails, Hostel: hostel });
-                        setHostelSearch(hostel);
-                        setShowHostelDropdown(false);
+                        if (hostel === "+ Add New") {
+                          setAddingNewHostel(true);
+                        } else {
+                          setFormDetails({ ...FormDetails, Hostel: hostel });
+                          setHostelSearch(hostel);
+                          setShowHostelDropdown(false);
+                        }
                       }}
                       className="p-2 hover:bg-gray-200 cursor-pointer"
                     >
@@ -148,11 +154,51 @@ const Login = () => {
                     </div>
                   ))}
 
+                {/* No match */}
                 {hostels.filter((h) =>
                   h.toLowerCase().includes(HostelSearch.toLowerCase())
                 ).length === 0 && (
                   <div className="p-2 text-gray-500">No matches found</div>
                 )}
+              </div>
+            )}
+            {AddingNewHostel && (
+              <div className="mt-2">
+                <input
+                  type="text"
+                  placeholder="Enter new hostel name"
+                  value={FormDetails.Hostel}
+                  onChange={(e) => {
+                    setFormDetails({
+                      ...FormDetails,
+                      Hostel: e.target.value,
+                    });
+                  }}
+                  className="w-full h-10 p-2 outline-none border rounded"
+                  autoFocus
+                />
+
+                <button
+                  className="mt-2 px-3 py-1 bg-blue-600 text-white rounded"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setHostelSearch(FormDetails.Hostel);
+                    setAddingNewHostel(false);
+                    setShowHostelDropdown(false);
+                  }}
+                >
+                  Save Hostel
+                </button>
+
+                <button
+                  className="mt-2 ml-3 px-3 py-1 bg-gray-300 rounded"
+                  onClick={() => {
+                    setAddingNewHostel(false);
+                    setFormDetails({ ...FormDetails, Hostel: "" });
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             )}
           </div>
