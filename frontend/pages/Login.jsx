@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
@@ -13,7 +13,8 @@ const Login = () => {
   const [InputOtp, setInputOtp] = useState();
   const [otp, setotp] = useState();
   const [Verified, setVerified] = useState(false);
-  const hostels = ["Hostel A", "Hostel B", "Hostel C", "Hostel D", "+ Add New"];
+
+  const [hostels, sethostels] = useState();
   const [HostelSearch, setHostelSearch] = useState("");
   const [ShowHostelDropdown, setShowHostelDropdown] = useState(false);
   const [AddingNewHostel, setAddingNewHostel] = useState(false);
@@ -25,6 +26,23 @@ const Login = () => {
     Password: "",
     Hostel: "",
   });
+
+  useEffect(() => {
+    const hostelList = async () => {
+      const response = await axios.get(`${VITE_URL}/hostel/hostelList`, {
+        withCredentials: true,
+      });
+      console.log(response);
+      const hostelNames = response.data.hostels.map((h) => h.hostelname);
+
+      // "+ Add New Hostel" option
+      hostelNames.push("+ Add New Hostel");
+
+      sethostels(hostelNames);
+    };
+    hostelList();
+  }, []);
+
   const HandleChange = (e) => {
     setFormDetails({
       ...FormDetails,
@@ -32,6 +50,7 @@ const Login = () => {
     });
   };
   const HandleLogin = async () => {
+    console.log(FormDetails)
     if (Verified === true || Status === "Login") {
       const response = await axios.post(
         `${VITE_URL}/user/${Status}`,
@@ -125,13 +144,14 @@ const Login = () => {
               onChange={(e) => {
                 setHostelSearch(e.target.value);
                 setShowHostelDropdown(true);
+                setAddingNewHostel(false);
               }}
               className="w-full h-10 p-2 outline-none rounded"
             />
 
+            {/* Dropdown */}
             {ShowHostelDropdown && !AddingNewHostel && (
               <div className="absolute top-12 left-0 w-full max-h-40 bg-white shadow-lg rounded overflow-y-auto z-10">
-                {/* Existing hostels */}
                 {hostels
                   .filter((h) =>
                     h.toLowerCase().includes(HostelSearch.toLowerCase())
@@ -140,21 +160,26 @@ const Login = () => {
                     <div
                       key={index}
                       onClick={() => {
-                        if (hostel === "+ Add New") {
+                        if (hostel === "+ Add New Hostel") {
                           setAddingNewHostel(true);
+                          setShowHostelDropdown(true);
                         } else {
                           setFormDetails({ ...FormDetails, Hostel: hostel });
                           setHostelSearch(hostel);
                           setShowHostelDropdown(false);
                         }
                       }}
-                      className="p-2 hover:bg-gray-200 cursor-pointer"
+                      className={`p-2 cursor-pointer hover:bg-gray-200 ${
+                        hostel === "+ Add New Hostel"
+                          ? "text-blue-600 font-bold"
+                          : ""
+                      }`}
                     >
                       {hostel}
                     </div>
                   ))}
 
-                {/* No match */}
+                {/* If nothing matches */}
                 {hostels.filter((h) =>
                   h.toLowerCase().includes(HostelSearch.toLowerCase())
                 ).length === 0 && (
@@ -162,43 +187,46 @@ const Login = () => {
                 )}
               </div>
             )}
+
+            {/* Add New Hostel Input Box */}
             {AddingNewHostel && (
-              <div className="mt-2">
+              <div className="absolute top-12 left-0 w-full bg-white shadow-lg p-3 rounded z-10">
                 <input
                   type="text"
                   placeholder="Enter new hostel name"
                   value={FormDetails.Hostel}
-                  onChange={(e) => {
-                    setFormDetails({
-                      ...FormDetails,
-                      Hostel: e.target.value,
-                    });
-                  }}
-                  className="w-full h-10 p-2 outline-none border rounded"
+                  onChange={(e) =>
+                    setFormDetails({ ...FormDetails, Hostel: e.target.value })
+                  }
+                  className="w-full h-10 p-2 border rounded outline-none"
                   autoFocus
                 />
 
-                <button
-                  className="mt-2 px-3 py-1 bg-blue-600 text-white rounded"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setHostelSearch(FormDetails.Hostel);
-                    setAddingNewHostel(false);
-                    setShowHostelDropdown(false);
-                  }}
-                >
-                  Save Hostel
-                </button>
+                <div className="flex gap-3 mt-2">
+                  <button
+                    className="px-3 py-1 bg-blue-600 text-white rounded"
+                    onClick={(e) => {
+                      e.preventDefault();
 
-                <button
-                  className="mt-2 ml-3 px-3 py-1 bg-gray-300 rounded"
-                  onClick={() => {
-                    setAddingNewHostel(false);
-                    setFormDetails({ ...FormDetails, Hostel: "" });
-                  }}
-                >
-                  Cancel
-                </button>
+                      // Save new hostel name
+                      setHostelSearch(FormDetails.Hostel);
+                      setShowHostelDropdown(false);
+                      setAddingNewHostel(false);
+                    }}
+                  >
+                    Save
+                  </button>
+
+                  <button
+                    className="px-3 py-1 bg-gray-300 rounded"
+                    onClick={() => {
+                      setAddingNewHostel(false);
+                      setFormDetails({ ...FormDetails, Hostel: "" });
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             )}
           </div>

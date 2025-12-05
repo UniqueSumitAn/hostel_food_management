@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../Model/userModel");
 const bcrypt = require("bcrypt");
 const jwtSign = require("../Auth/Auth");
+const hostelModel = require("../Model/hostelModel");
 
 const Login = async (req, res) => {
   const { Email, Password } = req.body;
@@ -42,16 +43,34 @@ const Login = async (req, res) => {
 
 const Register = async (req, res) => {
   const { Name, Email, Phone, Password, Hostel } = req.body;
-  console.log(req.body)
-  if (Hostel != "+ Add New") {
-    const isUser = await User.findOne({ Email });
+  console.log(req.body);
+  const isHostel = await hostelModel.findOne({ hostelname: Hostel });
+  if (!isHostel) {
+    const newAdmin = new User({
+      email: Email,
+      password: Password,
+      Phone: Phone,
+      fullname: Name,
+      hostelname: Hostel,
+      role: "admin",
+    });
+    await newAdmin.save();
+    const newHostel = await hostelModel.create({
+      hostelname: Hostel,
+      Admin: [newAdmin._id],
+    });
+
+    return res.json({ success: true, panel: "admin" });
+  }
+  if (isHostel) {
+    const isUser = await User.findOne({ email: Email });
     if (!isUser) {
       const newUser = new User({
         email: Email,
         password: Password,
         Phone: Phone,
         fullname: Name,
-        hostel: Hostel,
+        hostelname: Hostel,
       });
 
       await newUser.save();

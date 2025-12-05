@@ -4,16 +4,14 @@ const bcrypt = require("bcrypt");
 const productItemSchema = new mongoose.Schema({
   id: { type: String, required: true },
   name: { type: String, required: true },
-  price: { type: Number, required: true }
+  price: { type: Number, required: true },
+  img: { type: String, required: true },
 });
 
 const productCategorySchema = new mongoose.Schema({
   category: { type: String, required: true },
-  products: [productItemSchema]
+  products: [productItemSchema],
 });
-
-
-
 
 const hostelSchema = new mongoose.Schema(
   {

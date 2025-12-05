@@ -18,7 +18,6 @@ const hostelDetailRoute = async (req, res) => {
   }
 };
 
-
 // addCategory
 
 const addCategory = async (req, res) => {
@@ -68,4 +67,26 @@ const addProductToCategory = async (req, res) => {
   }
 };
 
-module.exports = { hostelDetailRoute, addCategory, addProductToCategory };
+const hostelList = async (req, res) => {
+  try {
+    const hostels = await hostelModel.find({}, "hostelname");
+
+   return res.status(200).json({
+      success: true,
+      hostels,
+    });
+  } catch (error) {
+   return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error,
+    });
+  }
+};
+
+module.exports = {
+  hostelDetailRoute,
+  addCategory,
+  addProductToCategory,
+  hostelList,
+};
