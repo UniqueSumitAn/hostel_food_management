@@ -42,7 +42,17 @@ const Login = async (req, res) => {
 };
 
 const Register = async (req, res) => {
-  const { Name, Email, Phone, Password, Hostel } = req.body;
+  const {
+    Name,
+    Email,
+    Phone,
+    Password,
+    Hostel,
+    Telegram_Token,
+    Telegram_Chat_Id,
+    Buisness_Email,
+    Buisness_Email_Password,
+  } = req.body;
   console.log(req.body);
   const isHostel = await hostelModel.findOne({ hostelname: Hostel });
   if (!isHostel) {
@@ -58,9 +68,20 @@ const Register = async (req, res) => {
     const newHostel = await hostelModel.create({
       hostelname: Hostel,
       Admin: [newAdmin._id],
+      telegram_token: Telegram_Token,
+      telegram_chat_id: Telegram_Chat_Id,
+      buisness_email: Buisness_Email,
+      buisness_email_password: Buisness_Email_Password,
     });
-
-    return res.json({ success: true, panel: "admin" });
+    const token = jwtSign(newAdmin._id);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
+    const admin = await User.findById(newAdmin._id).select("-password");
+    return res.json({ success: true, panel: "admin", user: admin });
   }
   if (isHostel) {
     const isUser = await User.findOne({ email: Email });
@@ -74,7 +95,15 @@ const Register = async (req, res) => {
       });
 
       await newUser.save();
-      return res.json({ success: true, panel: "user" });
+      const token = jwtSign(newUser._id);
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        path: "/",
+      });
+      const user = await User.findById(newUser._id).select("-password");
+      return res.json({ success: true, panel: "user", user: user });
     }
   }
 };

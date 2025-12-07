@@ -25,6 +25,10 @@ const Login = () => {
     Phone: "",
     Password: "",
     Hostel: "",
+    Telegram_Token: "",
+    Telegram_Chat_Id: "",
+    Buisness_Email: "",
+    Buisness_Email_Password: "",
   });
 
   useEffect(() => {
@@ -50,7 +54,6 @@ const Login = () => {
     });
   };
   const HandleLogin = async () => {
-    console.log(FormDetails)
     if (Verified === true || Status === "Login") {
       const response = await axios.post(
         `${VITE_URL}/user/${Status}`,
@@ -200,6 +203,59 @@ const Login = () => {
                   }
                   className="w-full h-10 p-2 border rounded outline-none"
                   autoFocus
+                />
+                <input
+                  type="text"
+                  placeholder="Telegram Token"
+                  value={FormDetails.Telegram_Token}
+                  onChange={(e) => {
+                    setFormDetails({
+                      ...FormDetails,
+                      Telegram_Token: e.target.value,
+                    });
+                  }}
+                  className="w-full h-10 p-2 border rounded outline-none"
+                />
+                {/* Telegram_Chat_Id: "",
+    Buisness_Email: "",
+    Buisness_Email_Password: "", */}
+                <input
+                  type="text"
+                  placeholder="Telegram_Chat_Id"
+                  value={FormDetails.Telegram_Chat_Id}
+                  onChange={(e) => {
+                    setFormDetails({
+                      ...FormDetails,
+                      Telegram_Chat_Id: e.target.value,
+                    });
+                  }}
+                  className="w-full h-10 p-2 border rounded outline-none"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Buisness_Email:"
+                  value={FormDetails.Buisness_Email}
+                  onChange={(e) => {
+                    setFormDetails({
+                      ...FormDetails,
+                      Buisness_Email: e.target.value,
+                    });
+                  }}
+                  className="w-full h-10 p-2 border rounded outline-none"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Buisness_Email_Password"
+                  value={FormDetails.Buisness_Email_Password}
+                  onChange={(e) => {
+                    setFormDetails({
+                      ...FormDetails,
+                      Buisness_Email_Password: e.target.value,
+                    });
+                  }}
+                  className="w-full h-10 p-2 border rounded outline-none"
                 />
 
                 <div className="flex gap-3 mt-2">
