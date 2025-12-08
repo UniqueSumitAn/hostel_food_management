@@ -6,7 +6,9 @@ const hostelDetailRoute = async (req, res) => {
   try {
     const { userId } = req.body;
 
-    const hostel = await hostelModel.findOne({ Admin: userId });
+    const hostel = await hostelModel
+      .findOne({ Admin: userId })
+      .select("hostelname products logo");
 
     if (!hostel) {
       return res.status(404).json({ message: "Hostel not found" });

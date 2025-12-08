@@ -53,7 +53,9 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const HandleLogin = async () => {
+  const HandleLogin = async (e) => {
+    e.preventDefault();
+    console.log("login route",Status)
     if (Verified === true || Status === "Login") {
       const response = await axios.post(
         `${VITE_URL}/user/${Status}`,
@@ -62,6 +64,7 @@ const Login = () => {
           withCredentials: true,
         }
       );
+      
       if (response.data.panel === "user") {
         setUser(response.data.user);
         navigate("/Home", {
@@ -106,7 +109,7 @@ const Login = () => {
     <div className=" w-full h-screen flex justify-center items-center">
       <div className=" w-100 h-150 bg-amber-500 rounded-2xl flex flex-col justify-center items-center">
         <form
-          onSubmit={(e) => HandleSubmit(e)}
+          onSubmit={(e) => HandleLogin(e)}
           className=" flex flex-col justify-center items-center w-80 h-80 gap-5"
         >
           <input
@@ -335,7 +338,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              onClick={HandleLogin}
+              onClick={(e)=>HandleLogin(e)}
               className={`p-2 rounded-lg w-20 bg-green-600 cursor-pointer text-white mt-auto mb-3 ${
                 SubmitButton ? "block" : "hidden"
               }`}

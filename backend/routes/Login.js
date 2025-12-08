@@ -21,6 +21,7 @@ const Login = async (req, res) => {
           sameSite: "none",
           path: "/",
         });
+        
         //user is normal user
         return res.json({ success: true, panel: "user", user: user });
       } else if (isUser.role === "admin") {
@@ -33,8 +34,11 @@ const Login = async (req, res) => {
           path: "/",
         });
         // user is admin
+        
         return res.json({ success: true, panel: "admin", user: user });
       }
+    } else {
+      console.log("password else ");
     }
   } else {
     return res.json({ success: false, message: "user not authentic" });
