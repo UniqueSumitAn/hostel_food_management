@@ -16,7 +16,7 @@ const AddProductsDetails = ({
           <img
             src={PreviewImg || "preview"}
             className=" aspect-square"
-            onClick={() => document.getElementById("productImage").click()}
+            onClick={() => {if(ProductFormDetails.Category){document.getElementById("productImage").click()}else{alert("Select Category")}}}
           />
           <input
             className="hidden"

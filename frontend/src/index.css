@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+
+.menu-item {
+  @apply p-2 cursor-pointer rounded-md transition;
+}
+
+.menu-item:hover {
+  @apply bg-gray-200 text-black;
+}

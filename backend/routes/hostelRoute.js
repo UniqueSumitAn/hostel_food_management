@@ -38,8 +38,30 @@ const hostelList = async (req, res) => {
   }
 };
 
+const addProducts = async (req, res) => {
+  console.log("Cloudinary file:", req.file.path);
+  console.log("Form fields:", req.body);
+  const {
+    ProductName,
+    Price,
+    Category,
+    ProductId,
+    Action,
+    HostelDetails,
+    user,
+  } = req.body;
+  // const image_url = req.file.path;
+  const hostel = await hostelModel.findOne({
+    _id: HostelDetails,
+    Admin: User,
+  });
+  if (hostel) {
+    
+  }
+};
+
 module.exports = {
   hostelDetailRoute,
-
+  addProducts,
   hostelList,
 };
