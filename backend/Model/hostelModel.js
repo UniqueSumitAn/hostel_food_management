@@ -6,6 +6,8 @@ const productItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   img: { type: String, required: true },
+  sales: { type: Number,default:0 },
+  stock:{ type: Number,default:0 },
 });
 
 const productCategorySchema = new mongoose.Schema({
@@ -19,12 +21,13 @@ const hostelSchema = new mongoose.Schema(
       { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     ],
     hostelname: { type: String, required: true },
-    telegram_token:{type:String},
-    telegram_chat_id:{type:String},
-    buisness_email:{type:String},
-    buisness_email_password:{type:String},
+    telegram_token: { type: String },
+    telegram_chat_id: { type: String },
+    buisness_email: { type: String },
+    buisness_email_password: { type: String },
     products: [productCategorySchema],
     logo: { type: String },
+    Orders: [{ type: String }],
   },
   { timestamps: true }
 );

@@ -94,6 +94,10 @@ const addProducts = async (req, res) => {
   }
 };
 
+const UpdateProductDetails=async(req,res)=>{
+  
+}
+
 module.exports = {
   hostelDetailRoute,
   addProducts,
