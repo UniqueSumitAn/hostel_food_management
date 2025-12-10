@@ -6,6 +6,7 @@ const Addnewcategorydropdown = ({
   setProductFormDetails,
   setCategorySearch,
   setCategoryDropdown,
+  setHide,
 }) => {
   return (
     <div className="flex justify-center items-center p-3  flex-col gap-3 bg-blue-300 w-[45%] h-[45%]">
@@ -28,6 +29,7 @@ const Addnewcategorydropdown = ({
             setCategorySearch(ProductFormDetails.Category);
             setCategoryDropdown(false);
             setShowAddCategoryModal(false);
+            setHide(false);
           }}
         >
           Save

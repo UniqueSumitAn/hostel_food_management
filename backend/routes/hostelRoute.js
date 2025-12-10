@@ -39,8 +39,7 @@ const hostelList = async (req, res) => {
 };
 
 const addProducts = async (req, res) => {
-  console.log("Cloudinary file:", req.file.path);
-  console.log("Form fields:", req.body);
+ 
   const {
     ProductName,
     Price,
@@ -50,13 +49,48 @@ const addProducts = async (req, res) => {
     HostelDetails,
     user,
   } = req.body;
-  // const image_url = req.file.path;
+  const image_url = req.file.path;
   const hostel = await hostelModel.findOne({
     _id: HostelDetails,
-    Admin: User,
+    Admin: user,
   });
+  const newProduct = {
+    id: ProductId,
+    name: ProductName,
+    price: Price,
+    img: image_url,
+  };
   if (hostel) {
-    
+    if (Action === "Add New Category") {
+      //create new category and add products
+      hostel.products.push({
+        category: Category,
+        products: [newProduct],
+      });
+      await hostel.save();
+      return res.json({
+        message: "New category created & product added",
+        hostel: hostel,
+      });
+    } else if (Action === "Add New Product") {
+      // add products to existing category
+      const category = hostel.products.find(
+        (item) => item.category.toLowerCase() === Category.toLowerCase()
+      );
+
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+
+      category.products.push(newProduct);
+
+      await hostel.save();
+
+      return res.json({
+        message: "Product added to existing category",
+        hostel: hostel,
+      });
+    }
   }
 };
 

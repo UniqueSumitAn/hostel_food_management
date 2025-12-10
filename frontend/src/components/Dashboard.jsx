@@ -4,6 +4,7 @@ import { UserContext } from "../../context/UserContext";
 import AdminAddNewProduct from "./AdminAddNewProduct";
 
 import { HostelProductsContext } from "../../context/HostelProductsContext";
+import ProductsSellGraph from "./ProductsSellGraph";
 
 const VITE_URL = import.meta.env.VITE_BACKEND_URL;
 const Dashboard = () => {
@@ -41,10 +42,12 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="w-full flex h-[50%]">
-        <span className="w-[75%]">
+        <span className="w-[55%]">
           <h2 className="font-bold text-2xl">Recent Orders</h2>
         </span>
-        <span className="w-[25%]">Top Selling Products</span>
+        <span className="w-[45%]">
+          <ProductsSellGraph />
+        </span>
       </div>
       <div className="gap-3 ">
         <div className="flex ">
@@ -62,7 +65,63 @@ const Dashboard = () => {
             buttonStyle="bg-white"
           />
         </div>
-        <div className="mt-10">Products</div>
+        <div className="mt-10 text-2xl mb-5">Products</div>
+        <div className="flex justify-between mb-6 font-medium">
+          <span className="w-[16.7%] flex justify-center items-center">
+            Category
+          </span>
+          <span className="w-[16.7%] flex justify-center items-center">
+            Image
+          </span>
+          <span className="w-[16.7%] flex justify-center items-center">
+            Name
+          </span>
+          <span className="w-[16.7%] flex justify-center items-center">
+            Price
+          </span>
+          <span className="w-[16.7%] flex justify-center items-center">
+            Stock
+          </span>
+          <span className="w-[16.7%] flex justify-center items-center">
+            Action
+          </span>
+        </div>
+
+        {HostelDetails?.products?.map((Category, index) => (
+          <div key={index} className="flex flex-col justify-between mb-6">
+            {Category.products.map((Productdetail, idx) => (
+              <div className="flex  justify-between mb-6">
+                <span className="w-[16.7%] h-30 flex justify-center items-center">
+                  {Category.category}
+                </span>
+                <span className="w-[16.7%] justify-center items-center">
+                  <img
+                    src={Productdetail.img}
+                    alt={Productdetail.name}
+                    className="w-full h-30 object-contain rounded-md"
+                  />
+                </span>
+                <span className="w-[16.7%] h-30 flex justify-center items-center">
+                  {Productdetail.name}
+                </span>
+                <span className="w-[16.7%] h-30 flex justify-center items-center">
+                  {Productdetail.price}
+                </span>
+                <span className="w-[16.7%] h-30 flex justify-center items-center">
+                  Stock
+                </span>
+                <span className="w-[16.7%] h-30 flex justify-center gap-5 items-center">
+                  <button className="bg-green-800 p-2 rounded-2xl cursor-pointer text-white">
+                    Update
+                  </button>
+                  <button className="bg-red-700 p-2 rounded-2xl cursor-pointer text-white">
+                    Remove
+                  </button>
+                </span>
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </>
   );
