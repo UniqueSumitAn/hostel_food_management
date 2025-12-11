@@ -20,6 +20,9 @@ const hostelSchema = new mongoose.Schema(
     Admin: [
       { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     ],
+    Users: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    ],
     hostelname: { type: String, required: true },
     telegram_token: { type: String },
     telegram_chat_id: { type: String },
@@ -28,6 +31,7 @@ const hostelSchema = new mongoose.Schema(
     products: [productCategorySchema],
     logo: { type: String },
     Orders: [{ type: String }],
+
   },
   { timestamps: true }
 );
