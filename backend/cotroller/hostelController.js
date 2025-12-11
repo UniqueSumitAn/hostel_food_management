@@ -4,6 +4,7 @@ const {
 
   hostelList,
   addProducts,
+  hostelUsers,
 } = require("../routes/hostelRoute");
 const upload = require("../middleware/multer");
 const ProtectRoute = require("../Auth/ProtectRoute");
@@ -17,4 +18,5 @@ hostelRouter.post(
   addProducts
 );
 hostelRouter.get("/hostelList", hostelList);
+hostelRouter.post("/hostelUsers",ProtectRoute,hostelUsers)
 module.exports = hostelRouter;

@@ -31,11 +31,11 @@ const Admin = () => {
       Promotions: false,
       Settings: false,
       [name]: true,
-    });
+    }); 
   };
   return (
     <div className=" flex flex-col  bg-[#f1f3f5] bg-contain bg-center bg-no-repeat  w-full h-screen">
-      <div className="w-full">Admin Welcome to </div>
+      <div className="w-full"> <img src="/websitelogo.png" className="w-16 h-16 p-0 object-contain "/></div>
       <div className=" flex w-full h-full">
         <span className="w-[35%]  bg-[#265053] text-white text-2xl p-5 flex flex-col gap-6 h-full">
           <div
@@ -70,7 +70,7 @@ const Admin = () => {
           </div>
         </span>
         {/* bg-[#f1f3f5] */}
-        <span className="w-[65%] h-full p-5 overflow-y-scroll">
+        <span className="w-[65%] h-full overflow-y-scroll">
           {MenuOptions.Dashboard && <Dashboard />}
           {MenuOptions.Orders && <AdminOrders />}
           {MenuOptions.Products && <AdminProducts />}

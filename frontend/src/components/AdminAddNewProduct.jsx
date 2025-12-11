@@ -51,6 +51,8 @@ const AdminAddNewProduct = ({ buttonName, buttonStyle }) => {
         }
       );
       setHostelDetails(response.data.hostel);
+      alert(response.data.message);
+      setAddNewProduct(false);
     } catch (err) {
       console.log(err);
     }
@@ -115,7 +117,9 @@ const AdminAddNewProduct = ({ buttonName, buttonStyle }) => {
                   ))}
 
                 <div
-                  className={`${buttonName==="Add New Product" ? "hidden" : ""} p-2 text-blue-700 cursor-pointer hover:bg-gray-100`}
+                  className={`${
+                    buttonName === "Add New Product" ? "hidden" : ""
+                  } p-2 text-blue-700 cursor-pointer hover:bg-gray-100`}
                   onClick={() => setShowAddCategoryModal(true)}
                 >
                   + Add new category

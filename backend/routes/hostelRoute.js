@@ -39,7 +39,6 @@ const hostelList = async (req, res) => {
 };
 
 const addProducts = async (req, res) => {
- 
   const {
     ProductName,
     Price,
@@ -68,9 +67,12 @@ const addProducts = async (req, res) => {
         products: [newProduct],
       });
       await hostel.save();
+      const updatedhostel = await hostelModel
+        .findById(hostel._id)
+        .select("hostelname products logo");
       return res.json({
         message: "New category created & product added",
-        hostel: hostel,
+        hostel: updatedhostel,
       });
     } else if (Action === "Add New Product") {
       // add products to existing category
@@ -85,21 +87,38 @@ const addProducts = async (req, res) => {
       category.products.push(newProduct);
 
       await hostel.save();
-
+      const updatedhostel = await hostelModel
+        .findById(hostel._id)
+        .select("hostelname products logo");
       return res.json({
         message: "Product added to existing category",
-        hostel: hostel,
+        hostel: updatedhostel,
       });
     }
   }
 };
+const hostelUsers = async (req, res) => {
+  const { User } = req.body;
+  console.log(User);
+  try {
+    const detail = await hostelModel
+      .findOne({
+        hostelname: User.hostelname,
+        Admin: { $in: [User._id] },
+      })
+      .select("Users") .populate("Users", "-password -hostelname");
 
-const UpdateProductDetails=async(req,res)=>{
-  
-}
+return res.json({Detail:detail.Users})
+
+  } catch (err) {
+    console.log(err);
+  }
+};
+const UpdateProductDetails = async (req, res) => {};
 
 module.exports = {
   hostelDetailRoute,
   addProducts,
   hostelList,
+  hostelUsers,
 };

@@ -23,8 +23,8 @@ const Dashboard = () => {
     fetchhosteldetails();
   }, [User]);
   return (
-    <>
-      <div className="w-full h-[20%]">
+    <div className="p-5">
+      <div className="w-full h-[20%] ">
         <h2 className="font-bold text-2xl">Dashboard Overview</h2>
         <div className="w-full flex gap-6 font-bold ">
           <span className="w-[33%]  h-full bg-white rounded-2xl p-2">
@@ -123,7 +123,7 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

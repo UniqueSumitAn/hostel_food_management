@@ -21,7 +21,7 @@ const Login = async (req, res) => {
           sameSite: "none",
           path: "/",
         });
-        
+
         //user is normal user
         return res.json({ success: true, panel: "user", user: user });
       } else if (isUser.role === "admin") {
@@ -34,7 +34,7 @@ const Login = async (req, res) => {
           path: "/",
         });
         // user is admin
-        
+
         return res.json({ success: true, panel: "admin", user: user });
       }
     } else {
@@ -99,6 +99,12 @@ const Register = async (req, res) => {
       });
 
       await newUser.save();
+
+      await hostelModel.updateOne(
+      { _id: isHostel._id },
+      { $addToSet: { Users: newUser } }
+    );
+
       const token = jwtSign(newUser._id);
       res.cookie("token", token, {
         httpOnly: true,
