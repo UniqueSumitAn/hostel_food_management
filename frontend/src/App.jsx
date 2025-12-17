@@ -17,8 +17,8 @@ function App() {
       <UserProvider>
         <CartProvider>
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/Home" element={<Home />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/" element={<Home />} />
             <Route path="/Checkout" element={<Checkout />} />
             <Route path="/adminHome" element={<Admin />} />
           </Routes>

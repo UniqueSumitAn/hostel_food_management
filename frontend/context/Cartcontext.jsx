@@ -6,25 +6,43 @@ export const CartProvider = ({ children }) => {
   const [cartQuantities, setCartQuantities] = useState({});
   const [checkout, setCheckout] = useState(false);
 
+  // const handleQuantityChange = (productId, qty, name, price) => {
+  //   setCartQuantities((prev) => {
+  //     if (qty <= 0) {
+  //       const updated = { ...prev };
+  //       delete updated[productId];
+  //       return updated;
+  //     }
+
+  //     // Otherwise update
+  //     return {
+  //       ...prev,
+  //       [productId]: { qty, name, price },
+  //     };
+  //   });
+
+  //   // Show checkout button only if cart has items
+  //   setCheckout(true);
+
+  // };
+
   const handleQuantityChange = (productId, qty, name, price) => {
     setCartQuantities((prev) => {
+      const updated = { ...prev };
+
       if (qty <= 0) {
-        const updated = { ...prev };
         delete updated[productId];
-        return updated;
+      } else {
+        updated[productId] = { qty, name, price };
       }
 
-      // Otherwise update
-      return {
-        ...prev,
-        [productId]: { qty, name, price },
-      };
-    });
+      // Show/Hide checkout
+      setCheckout(Object.keys(updated).length > 0);
 
-    // Show checkout button only if cart has items
-    setCheckout(true);
-    
+      return updated;
+    });
   };
+
   const getTotalPrice = () => {
     return Object.values(cartQuantities).reduce(
       (sum, item) => sum + item.qty * item.price,

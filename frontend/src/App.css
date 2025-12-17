@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+*{
+ 
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* Hide spinner arrows on all number inputs */
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.arrow-shadow {
+  text-shadow: 0px 5px 3px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ❇️ Smooth fade-in + slide-up for checkout bar */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tailwind Utility */
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
