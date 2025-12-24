@@ -1,31 +1,39 @@
 import React, { useContext } from "react";
 import Product from "../src/components/Product";
 import Cart from "../src/components/Cart";
+import { useNavigate } from "react-router-dom";
 import Bill from "../src/components/Bill";
 import { useLocation } from "react-router-dom";
 import { CartContext } from "../context/Cartcontext";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
 const VITE_URL = import.meta.env.VITE_BACKEND_URL;
 const Checkout = () => {
-  const { cartQuantities } = useContext(CartContext);
+  const { cartQuantities, getTotalPrice } = useContext(CartContext);
+  const { User } = useContext(UserContext);
+  console.log(User);
   const location = useLocation();
-  const items = Object.entries(cartQuantities).map(([productId, item]) => ({
-    productId: productId,
-    name: item.name,
-    quantity: item.qty,
-    price: item.price,
-  }));
+  const items = [];
+const navigate=useNavigate()
+  Object.entries(cartQuantities).forEach(([categoryId, products]) => {
+    Object.entries(products).forEach(([productId, item]) => {
+      items.push({
+        categoryId: categoryId,
+        productId: productId,
+        name: item.name,
+        quantity: item.qty,
+        price: item.price,
+      });
+    });
+  });
 
-  const total = items.reduce(
-    (sum, item) => sum + item.quantity * item.price,
-    0
-  );
-  
+  const total = getTotalPrice() + 5;
+
   const placeOrder = async () => {
     const orderData = {
       orderId: "ORD-2001",
-      customerName: "Sumit Kumar",
-      phone: "8544549282",
+      customerName: `${User.fullname}`,
+      phone: `${User.phone}`,
       address: "Bhopal, MP",
       items: items,
       total: total,
@@ -36,6 +44,7 @@ const Checkout = () => {
   };
   return (
     <div className=" flex justify-center items-center flex-col w-full h-full bg-[#f5f7fd] gap-5 min-h-screen">
+      <button className="bg-green-600 p-3 rounded-xl  " onClick={()=>{navigate("/Home")}}>Back</button>
       <Cart />
       <Bill />
       <button

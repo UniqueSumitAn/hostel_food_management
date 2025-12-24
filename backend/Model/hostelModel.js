@@ -6,8 +6,8 @@ const productItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   img: { type: String, required: true },
-  sales: { type: Number,default:0 },
-  stock:{ type: Number,default:0 },
+  sales: { type: Number, default: 0 },
+  stock: { type: Number, default: 1 },
 });
 
 const productCategorySchema = new mongoose.Schema({
@@ -20,9 +20,7 @@ const hostelSchema = new mongoose.Schema(
     Admin: [
       { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     ],
-    Users: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    ],
+    Users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     hostelname: { type: String, required: true },
     telegram_token: { type: String },
     telegram_chat_id: { type: String },
@@ -31,7 +29,6 @@ const hostelSchema = new mongoose.Schema(
     products: [productCategorySchema],
     logo: { type: String },
     Orders: [{ type: String }],
-
   },
   { timestamps: true }
 );

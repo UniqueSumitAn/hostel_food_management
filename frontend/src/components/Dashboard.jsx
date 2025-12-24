@@ -108,7 +108,7 @@ const Dashboard = () => {
                   {Productdetail.price}
                 </span>
                 <span className="w-[16.7%] h-30 flex justify-center items-center">
-                  Stock
+                  {Productdetail.stock}
                 </span>
                 <span className="w-[16.7%] h-30 flex justify-center gap-5 items-center">
                   <button className="bg-green-800 p-2 rounded-2xl cursor-pointer text-white">

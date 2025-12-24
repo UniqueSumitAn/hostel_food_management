@@ -63,7 +63,7 @@ const Register = async (req, res) => {
     const newAdmin = new User({
       email: Email,
       password: Password,
-      Phone: Phone,
+      phone: Phone,
       fullname: Name,
       hostelname: Hostel,
       role: "admin",
@@ -93,7 +93,7 @@ const Register = async (req, res) => {
       const newUser = new User({
         email: Email,
         password: Password,
-        Phone: Phone,
+        phone: Phone,
         fullname: Name,
         hostelname: Hostel,
       });

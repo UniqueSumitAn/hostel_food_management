@@ -24,6 +24,7 @@ const AdminAddNewProduct = ({ buttonName, buttonStyle }) => {
     Price: "",
     ProductId: "",
     Img: "",
+    Stock:"",
   });
 
   const SendNewProduct = async (e) => {
@@ -34,6 +35,7 @@ const AdminAddNewProduct = ({ buttonName, buttonStyle }) => {
     formdata.append("ProductName", ProductFormDetails.ProductName);
     formdata.append("Price", ProductFormDetails.Price);
     formdata.append("Category", ProductFormDetails.Category);
+    formdata.append("Stock", ProductFormDetails.Stock);
     formdata.append("ProductId", ProductFormDetails.ProductId);
     formdata.append("Action", buttonName);
     formdata.append("HostelDetails", HostelDetails._id);

@@ -70,7 +70,7 @@ const Admin = () => {
           </div>
         </span>
         {/* bg-[#f1f3f5] */}
-        <span className="w-[65%] h-full overflow-y-scroll">
+        <span className="w-[65%] h-full overflow-y-scroll bg-[#f1f3f5] ">
           {MenuOptions.Dashboard && <Dashboard />}
           {MenuOptions.Orders && <AdminOrders />}
           {MenuOptions.Products && <AdminProducts />}

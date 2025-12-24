@@ -27,13 +27,20 @@ const Quantity = ({ onChange}) => {
   };
 
   return (
-    <div>
+      <div>
       {addToCart ? (
         <span className="flex items-center gap-2">
-          <button onClick={decrement} className="bg-gray-200 px-2 py-1 rounded">
-            -
+          {/* Decrement */}
+          <button
+            onClick={decrement}
+            className="bg-emerald-500 text-white font-bold px-3 py-1 rounded-lg
+                   transform hover:scale-110 hover:bg-emerald-400
+                   transition duration-300 shadow"
+          >
+            −
           </button>
 
+          {/* Quantity Input */}
           <input
             type="number"
             min={0}
@@ -45,16 +52,24 @@ const Quantity = ({ onChange}) => {
 
               if (val === 0) setAddToCart(false);
             }}
-            className="w-12 text-center border rounded appearance-none"
+            className="no-spinner w-12 text-center border rounded-md font-semibold"
           />
 
-          <button onClick={increment} className="bg-gray-200 px-2 py-1 rounded">
+          {/* Increment */}
+          <button
+            onClick={increment}
+            className="bg-emerald-500 text-white font-bold px-3 py-1 rounded-lg
+                   transform hover:scale-110 hover:bg-emerald-400
+                   transition duration-300 shadow"
+          >
             +
           </button>
         </span>
       ) : (
         <button
-          className="bg-green-600 rounded-lg p-2 text-white"
+          className="bg-emerald-500 text-white font-semibold rounded-lg px-4 py-2
+                 transform hover:scale-110 hover:bg-emerald-600
+                 transition duration-300 shadow"
           onClick={() => {
             setAddToCart(true);
             setQuantity(1);
@@ -67,5 +82,6 @@ const Quantity = ({ onChange}) => {
     </div>
   );
 };
+
 
 export default Quantity;

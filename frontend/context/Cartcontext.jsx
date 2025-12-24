@@ -6,30 +6,45 @@ export const CartProvider = ({ children }) => {
   const [cartQuantities, setCartQuantities] = useState({});
   const [checkout, setCheckout] = useState(false);
 
-  const handleQuantityChange = (productId, qty, name, price) => {
-    setCartQuantities((prev) => {
-      if (qty <= 0) {
-        const updated = { ...prev };
-        delete updated[productId];
-        return updated;
+ const handleQuantityChange = (
+  productId,
+  categoryId,
+  qty,
+  name,
+  price
+) => {
+  setCartQuantities((prev) => {
+    const updated = { ...prev };
+
+    // ✅ Ensure category exists
+    if (!updated[categoryId]) {
+      updated[categoryId] = {};
+    }
+
+    if (qty <= 0) {
+      delete updated[categoryId][productId];
+
+      // remove empty category
+      if (Object.keys(updated[categoryId]).length === 0) {
+        delete updated[categoryId];
       }
+    } else {
+      updated[categoryId][productId] = { qty, name, price };
+    }
 
-      // Otherwise update
-      return {
-        ...prev,
-        [productId]: { qty, name, price },
-      };
-    });
+    setCheckout(Object.keys(updated).length > 0);
+    return updated;
+  });
+};
 
-    // Show checkout button only if cart has items
-    setCheckout(true);
-    
-  };
   const getTotalPrice = () => {
-    return Object.values(cartQuantities).reduce(
-      (sum, item) => sum + item.qty * item.price,
-      0
-    );
+    let total = 0;
+    Object.values(cartQuantities).forEach((category) => {
+      Object.values(category).forEach((product) => {
+        total += product.qty * product.price;
+      });
+    });
+    return total;
   };
 
   return (

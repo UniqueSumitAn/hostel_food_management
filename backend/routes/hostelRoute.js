@@ -43,6 +43,7 @@ const addProducts = async (req, res) => {
     ProductName,
     Price,
     Category,
+    Stock,
     ProductId,
     Action,
     HostelDetails,
@@ -58,9 +59,20 @@ const addProducts = async (req, res) => {
     name: ProductName,
     price: Price,
     img: image_url,
+    stock: Stock,
   };
+  console.log(req.body);
+  let actionType = Action;
+  if (actionType === "Add New Category") {
+    const category = hostel.products.find(
+      (item) => item.category.toLowerCase() === Category.toLowerCase()
+    );
+    if (category) {
+      actionType = "Add New Product";
+    }
+  }
   if (hostel) {
-    if (Action === "Add New Category") {
+    if (actionType === "Add New Category") {
       //create new category and add products
       hostel.products.push({
         category: Category,
@@ -74,7 +86,7 @@ const addProducts = async (req, res) => {
         message: "New category created & product added",
         hostel: updatedhostel,
       });
-    } else if (Action === "Add New Product") {
+    } else if (actionType === "Add New Product") {
       // add products to existing category
       const category = hostel.products.find(
         (item) => item.category.toLowerCase() === Category.toLowerCase()
@@ -106,10 +118,10 @@ const hostelUsers = async (req, res) => {
         hostelname: User.hostelname,
         Admin: { $in: [User._id] },
       })
-      .select("Users") .populate("Users", "-password -hostelname");
+      .select("Users")
+      .populate("Users", "-password -hostelname");
 
-return res.json({Detail:detail.Users})
-
+    return res.json({ Detail: detail.Users });
   } catch (err) {
     console.log(err);
   }
