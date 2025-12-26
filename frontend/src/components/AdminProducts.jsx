@@ -23,7 +23,7 @@ const AdminProducts = () => {
             {Category.category}
           </span>
           {Category.products.map((Productdetail, idx) => (
-            <div className="flex  justify-between mb-6">
+            <div className="flex  justify-between mb-6" key={idx}>
               <span className="w-[16.7%] justify-center items-center">
                 <img
                   src={Productdetail.img}

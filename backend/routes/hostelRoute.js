@@ -5,11 +5,12 @@ const cloudinary = require("../Config/cloudinary");
 const hostelDetailRoute = async (req, res) => {
   try {
     const { userId } = req.body;
-
+    console.log(userId);
     const hostel = await hostelModel
-      .findOne({ Admin: userId })
+      .findOne({
+        $or: [{ Admin: userId }, { Users: userId }],
+      })
       .select("hostelname products logo");
-
     if (!hostel) {
       return res.status(404).json({ message: "Hostel not found" });
     }

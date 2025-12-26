@@ -90,7 +90,7 @@ const Dashboard = () => {
         {HostelDetails?.products?.map((Category, index) => (
           <div key={index} className="flex flex-col justify-between mb-6">
             {Category.products.map((Productdetail, idx) => (
-              <div className="flex  justify-between mb-6">
+              <div className="flex  justify-between mb-6" key={idx}>
                 <span className="w-[16.7%] h-30 flex justify-center items-center">
                   {Category.category}
                 </span>

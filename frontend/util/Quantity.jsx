@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Quantity = ({ onChange}) => {
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState();
   const [addToCart, setAddToCart] = useState(false);
 
   const increment = () => {

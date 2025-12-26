@@ -1,12 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import Products from "../../public/Dummyproducts";
+import React, { useContext, useEffect, useState } from "react";
+// import Products from "../../public/Dummyproducts";
 
 import Quantity from "../../util/Quantity";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/Cartcontext";
+import { UserContext } from "../../context/UserContext";
+import axios from "axios";
+import { HostelProductsContext } from "../../context/HostelProductsContext";
+const VITE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Product = () => {
-  
   const {
     cartQuantities,
     setCartQuantities,
@@ -15,13 +18,34 @@ const Product = () => {
     handleQuantityChange,
   } = useContext(CartContext);
   const navigate = useNavigate();
- 
-
+  const { User } = useContext(UserContext);
+  const { HostelDetails, setHostelDetails } = useContext(HostelProductsContext);
+  useEffect(() => {
+    if (!User?._id) return;
+    const fetchhosteldetails = async () => {
+      try {
+        const response = await axios.post(
+          `${VITE_URL}/hostel/fetchHostelDetails`,
+          { userId: User._id },
+          { withCredentials: true }
+        );
+        console.log(response.data);
+        setHostelDetails(response.data);
+      } catch (err) {
+        console.error(
+          "fetchHostelDetails error:",
+          err.response?.status,
+          err.response?.data || err.message
+        );
+      }
+    };
+    fetchhosteldetails();
+  }, [User]);
 
   return (
     <div className="w-full flex flex-col h-full space-y-10 pb-10">
       {/* Loop products categories */}
-      {Products.map((Category, index) => (
+      {HostelDetails?.products?.map((Category, index) => (
         <div key={index} className="flex flex-col">
           <div className="relative ml-6  ">
             <h2 className="text-xl font-serif font-bold">
@@ -73,7 +97,7 @@ const Product = () => {
                   <div className="w-full text-center">
                     <img
                       loading="lazy"
-                      src={Productdetail.image}
+                      src={Productdetail.img}
                       alt={Productdetail.name}
                       className="h-20 w-full object-cover rounded-md"
                     />
@@ -95,7 +119,8 @@ const Product = () => {
                       transform hover:scale-110 transition duration-300
                       rounded-lg px-2 py-1 shadow text-sm
                     "
-                    ><Quantity
+                    >
+                      <Quantity
                         onChange={(qty) =>
                           handleQuantityChange(
                             Productdetail._id,
@@ -117,8 +142,9 @@ const Product = () => {
 
       {/* Checkout Button */}
       <div
-        className={`${checkout ? "flex animate-fadeInUp" : "hidden"
-          } fixed bottom-4 left-0 right-0 justify-center z-50`}
+        className={`${
+          checkout ? "flex animate-fadeInUp" : "hidden"
+        } fixed bottom-4 left-0 right-0 justify-center z-50`}
       >
         <button
           className="
