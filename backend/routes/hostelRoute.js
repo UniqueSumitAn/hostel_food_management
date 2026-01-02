@@ -40,55 +40,75 @@ const hostelList = async (req, res) => {
 };
 
 const addProducts = async (req, res) => {
-  const {
-    ProductName,
-    Price,
-    Category,
-    Stock,
-    ProductId,
-    Action,
-    HostelDetails,
-    user,
-  } = req.body;
-  const image_url = req.file.path;
-  const hostel = await hostelModel.findOne({
-    _id: HostelDetails,
-    Admin: user,
-  });
-  const newProduct = {
-    id: ProductId,
-    name: ProductName,
-    price: Price,
-    img: image_url,
-    stock: Stock,
-  };
-  console.log(req.body);
-  let actionType = Action;
-  if (actionType === "Add New Category") {
-    const category = hostel.products.find(
-      (item) => item.category.toLowerCase() === Category.toLowerCase()
-    );
-    if (category) {
-      actionType = "Add New Product";
+  try {
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+
+    const {
+      ProductName,
+      Price,
+      Category,
+      Stock,
+      ProductId,
+      Action,
+      HostelDetails,
+      user,
+    } = req.body;
+
+    // ✅ Check file
+    if (!req.file) {
+      return res.status(400).json({ message: "Image file is required" });
     }
-  }
-  if (hostel) {
+
+    const image_url = req.file.path;
+
+    if (!image_url) {
+      return res.status(400).json({ message: "Image upload failed" });
+    }
+
+    // ✅ Find hostel
+    const hostel = await hostelModel.findOne({
+      _id: HostelDetails,
+      Admin: user,
+    });
+
+    if (!hostel) {
+      return res.status(404).json({ message: "Hostel not found" });
+    }
+
+    const newProduct = {
+      id: ProductId,
+      name: ProductName,
+      price: Price,
+      img: image_url,
+      stock: Stock,
+    };
+
+    let actionType = Action;
+
+    // ✅ Check category existence
     if (actionType === "Add New Category") {
-      //create new category and add products
+      const categoryExists = hostel.products.find(
+        (item) => item.category.toLowerCase() === Category.toLowerCase()
+      );
+
+      if (categoryExists) {
+        actionType = "Add New Product";
+      }
+    }
+
+    // ✅ Add new category
+    if (actionType === "Add New Category") {
       hostel.products.push({
         category: Category,
         products: [newProduct],
       });
+
       await hostel.save();
-      const updatedhostel = await hostelModel
-        .findById(hostel._id)
-        .select("hostelname products logo");
-      return res.json({
-        message: "New category created & product added",
-        hostel: updatedhostel,
-      });
-    } else if (actionType === "Add New Product") {
-      // add products to existing category
+    }
+
+    // ✅ Add product to existing category
+    else if (actionType === "Add New Product") {
       const category = hostel.products.find(
         (item) => item.category.toLowerCase() === Category.toLowerCase()
       );
@@ -98,18 +118,27 @@ const addProducts = async (req, res) => {
       }
 
       category.products.push(newProduct);
-
       await hostel.save();
-      const updatedhostel = await hostelModel
-        .findById(hostel._id)
-        .select("hostelname products logo");
-      return res.json({
-        message: "Product added to existing category",
-        hostel: updatedhostel,
-      });
+    } else {
+      return res.status(400).json({ message: "Invalid action type" });
     }
+
+    const updatedhostel = await hostelModel
+      .findById(hostel._id)
+      .select("hostelname products logo");
+
+    return res.status(200).json({
+      message: "Product added successfully",
+      hostel: updatedhostel,
+    });
+  } catch (error) {
+    console.error("ADD PRODUCT ERROR:", error);
+    return res.status(500).json({
+      message: error.message,
+    });
   }
 };
+
 const hostelUsers = async (req, res) => {
   const { User } = req.body;
   console.log(User);

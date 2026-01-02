@@ -18,5 +18,5 @@ hostelRouter.post(
   addProducts
 );
 hostelRouter.get("/hostelList", hostelList);
-hostelRouter.post("/hostelUsers",ProtectRoute,hostelUsers)
+hostelRouter.post("/hostelUsers", ProtectRoute, hostelUsers);
 module.exports = hostelRouter;

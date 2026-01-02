@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
 import Addnewcategorydropdown from "./Addnewcategorydropdown";
@@ -24,11 +24,15 @@ const AdminAddNewProduct = ({ buttonName, buttonStyle }) => {
     Price: "",
     ProductId: "",
     Img: "",
-    Stock:"",
+    Stock: "",
   });
 
   const SendNewProduct = async (e) => {
     e.preventDefault();
+    if (!File) {
+      alert("Please select a product image");
+      return;
+    }
 
     const formdata = new FormData();
     formdata.append("image", File);
@@ -42,6 +46,10 @@ const AdminAddNewProduct = ({ buttonName, buttonStyle }) => {
     formdata.append("user", User._id);
 
     try {
+      for (let pair of formdata.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
       const response = await axios.post(
         `${VITE_URL}/hostel/addProducts`,
         formdata,

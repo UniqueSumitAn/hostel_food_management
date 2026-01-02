@@ -3,7 +3,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const connectDB = require("./Config/DB");
-
+const multer = require("multer");
 const userRouter = require("./cotroller/userRoutes");
 const messageRouter = require("./cotroller/messageRoutes");
 const hostelRouter = require("./cotroller/hostelController");
@@ -38,6 +38,18 @@ App.use(
 App.use("/user", userRouter);
 App.use("/message", messageRouter);
 App.use("/hostel", hostelRouter);
+App.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({ message: err.message });
+  }
+
+  if (err.message?.includes("Invalid image file")) {
+    return res.status(400).json({ message: "Invalid image format" });
+  }
+
+  console.error(err);
+  res.status(500).json({ message: "Server error" });
+});
 
 const startServer = async () => {
   try {
