@@ -10,17 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-react": "^0.17.8",
+    "@lottiefiles/dotlottie-react": "^0.17.12",
     "@splinetool/react-spline": "^4.1.0",
-    "@tailwindcss/vite": "^4.1.17",
+    "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.13.2",
-    "emoji-picker-react": "^4.15.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.6",
-    "socket.io-client": "^4.8.1",
+    "emoji-picker-react": "^4.16.1",
+    "lottie-react": "^2.4.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.11.0",
+    "socket.io-client": "^4.8.3",
     "spline": "^0.0.0",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
